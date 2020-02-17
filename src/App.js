@@ -1,25 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const [todo, setTodo] = useState({desc: '', date: ''});
+const [todos, setTodos] = useState([]);
+
+
+const addTodo = (event) => {
+  event.preventDefault();
+  setTodos([...todos, todo]);
+}
+
+const inputChanged = (event) => {
+  setTodo({...todo, [event.target.name]: event.target.value});
+}
+
+const deleteTodo = (event) => {
+  event.preventDefault();
+  setTodos(todos.filter((todo, index) => index !== parseInt(event.target.id)));
+}
+
+const columns = [
+  {},
+  {}
+]
+
+
+return (
+ 
+  <div className = "App">
+    <h1>Simple todolist</h1>
+    <form onSubmit = {addTodo}>
+      Description:
+      <input type = "text" name = "desc" value = {todo.desc} onChange = {inputChanged}/>
+      Date:
+      <input type = "date" name = "date" value = {todo.date} onChange = {inputChanged}/>
+      <input type = "submit" value = "Add"/>
+    </form>
+     <ReactTable data = {todos} columns = {columns} />
+  </div>
   );
 }
 
